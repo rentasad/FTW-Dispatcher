@@ -1,0 +1,35 @@
+﻿Private Sub aiportDistanceCalculationButton_Click()
+    AirportModul.writeDistanceToDistanceTable
+
+End Sub
+
+
+
+
+
+
+Private Sub FillAirportListFromDatabase_Click()
+    disableUpdates
+    updateAirportDbFromMysqlDb
+    AirportData.Activate
+    enableUpdates
+End Sub
+
+
+Sub disableUpdates()
+With Application
+    .ScreenUpdating = False
+    statusCalc = .Calculation
+    .Calculation = xlCalculationManual
+    End With
+    Application.EnableEvents = False
+End Sub
+
+Sub enableUpdates()
+With Application
+    .ScreenUpdating = True
+    statusCalc = .Calculation
+    .Calculation = xlCalculationAutomatic
+    End With
+    Application.EnableEvents = True
+End Sub
