@@ -10,8 +10,8 @@ Attribute VB_Exposed = False
 
 Private mstricao As String
 Private mstrairportName As String
-Private mdbllongitude As Double
-Private mdbllatitude As Double
+Private mdbllongitude As String
+Private mdbllatitude As String
 Private mlngmaxRunwayLength As Long
 Property Get icao() As String
     icao = mstricao
@@ -25,16 +25,16 @@ End Property
 Property Let airportName(rData As String)
     mstrairportName = rData
 End Property
-Property Get longitude() As Double
+Property Get longitude() As String
     longitude = mdbllongitude
 End Property
-Property Let longitude(rData As Double)
+Property Let longitude(rData As String)
     mdbllongitude = rData
 End Property
-Property Get latitude() As Double
+Property Get latitude() As String
     latitude = mdbllatitude
 End Property
-Property Let latitude(rData As Double)
+Property Let latitude(rData As String)
     mdbllatitude = rData
 End Property
 Property Get maxRunwayLength() As Long

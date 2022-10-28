@@ -53,8 +53,13 @@ AirportData.Cells(line, 3) = "Latitude"
 AirportData.Cells(line, 4) = "Longitude"
 AirportData.Cells(line, 5) = "Longest_Runway"
 
+Dim lon As String
+Dim lat As String
+
 Do While Not rs.EOF
       line = line + 1
+      
+      
       AirportData.Cells(line, 1) = rs.Fields().Item("ident")
       AirportData.Cells(line, 2) = rs.Fields().Item("name")
       AirportData.Cells(line, 3) = rs.Fields().Item("latitude_deg")
@@ -67,19 +72,21 @@ Loop
 End Sub
   
 Public Sub writeDistanceToDistanceTable()
-distanceTable.Range("A1:D999999").ClearContents
+distanceTable.Range("A1:H999999").ClearContents
 distanceTable.Cells(1, 1) = "DEPARTURE"
 distanceTable.Cells(1, 2) = "DESTINATION"
 distanceTable.Cells(1, 3) = "DISTANCE_KM"
 distanceTable.Cells(1, 4) = "DISTANCE_NM"
+
 
 Dim dictAirports As Scripting.Dictionary
 Set dictAirports = AirportModul.getAirportDictionary
 Const KM_TO_NM_CONVERSION_CONSTANT As Double = 0.539956803
 
 
-Dim distanceKm As Double
-Dim distanceNM As Double
+Dim distanceKm1 As Double
+Dim distanceNM1 As Double
+
 Dim line As Long
 line = 2
 
@@ -90,13 +97,15 @@ For Each airportIcao1 In dictAirports.Keys()
             Dim airportDest As AirportObject
             Set airportDep = dictAirports.Item(airportIcao1)
             Set airportDest = dictAirports.Item(airportIcao2)
-            distanceKm = DistanceCaluculationModul.GetDistanceCoord(airportDep.latitude, airportDep.longitude, airportDest.latitude, airportDest.longitude, "K")
-            distanceNM = distanceKm * KM_TO_NM_CONVERSION_CONSTANT
+            
+            distanceKm1 = DistanceCaluculationModul.dDistance(airportDep.latitude, airportDep.longitude, airportDest.latitude, airportDest.longitude, Km)
+            distanceNM1 = DistanceCaluculationModul.dDistance(airportDep.latitude, airportDep.longitude, airportDest.latitude, airportDest.longitude, NM)
             
             distanceTable.Cells(line, 1) = airportDep.icao
             distanceTable.Cells(line, 2) = airportDest.icao
-            distanceTable.Cells(line, 3) = distanceKm
-            distanceTable.Cells(line, 4) = distanceNM
+            
+            distanceTable.Cells(line, 3) = distanceKm1
+            distanceTable.Cells(line, 4) = distanceNM1
             
             line = line + 1
             
@@ -117,8 +126,8 @@ Dim line As Integer
 Dim nextLineAvaible As Boolean
 Dim icao As String
 Dim airportName As String
-Dim latitude As Double
-Dim longitude As Double
+Dim latitude As String
+Dim longitude As String
 Dim longesRwy As Long
 
 
@@ -146,8 +155,8 @@ Do While nextLineAvaible
         
         airport.airportName = airportName
         airport.icao = icao
-        airport.latitude = latitude
-        airport.longitude = longitude
+        airport.latitude = Replace(latitude, ".", ",")
+        airport.longitude = Replace(longitude, ".", ",")
         airport.maxRunwayLength = longesRwy
         
         Dim key As String
