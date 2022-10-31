@@ -1,5 +1,6 @@
 Attribute VB_Name = "DistanceCaluculationModul"
-Enum Measurement
+'@Folder "Modules.Utilities"
+Public Enum Measurement
     Miles = 3958.756
     Km = 6371
     NM = 3440.065
@@ -7,7 +8,7 @@ Enum Measurement
 End Enum
 
 'Source http://www.odosmatthewscoding.com/2019/06/how-to-calculate-distance-between-two.html
-Function dDistance(ByRef lat1 As Double, _
+Public Function dDistance(ByRef lat1 As Double, _
                    ByRef lon1 As Double, _
                    ByRef lat2 As Double, _
                    ByRef lon2 As Double, _
@@ -90,11 +91,12 @@ End Function
 
 
  
-Function deg2rad(ByVal deg As Double) As Double
+Public Function deg2rad(ByVal deg As Double) As Double
     deg2rad = (deg * WorksheetFunction.PI / 180#)
 End Function
  
-Function rad2deg(ByVal rad As Double) As Double
+Public Function rad2deg(ByVal rad As Double) As Double
     rad2deg = rad / WorksheetFunction.PI * 180#
 End Function
+
 

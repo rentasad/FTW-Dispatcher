@@ -1,4 +1,5 @@
 Attribute VB_Name = "Haversine"
+'@Folder "Modules.Utilities"
 Public Function getDistance(ByVal dbl_Longitude1 As Double, dbl_Longitude2 As Double, dbl_Latitude1 As Double, dbl_Latitude2 As Double) As Double
 
 
