@@ -50,10 +50,17 @@ Do While nextLineAvaible
         ' This string has value "NOT IN DATABASE" if airport was not found in global Airport database
         verifyColumn = VAFboTable.Cells(line, AirportModul.COLUMN_MAX_RUNWAY_LENGTH)
         icao = VAFboTable.Cells(line, AirportModul.COLUMN_ICAO)
+        
+        If (StrComp(icao, "EDDS") = 0) Then
+        Debug.Print ("STOP EDDS")
+        End If
+        
+        
+        
         resultCompare = StrComp(verifyColumn, NOT_IN_DATABASE_STRING)
         If (resultCompare = -1) Then
             Set airport = New airportObject
-            
+            airport.icao = icao
             
             airportName = VAFboTable.Cells(line, AirportModul.COLUMN_AIRPORT_NAME)
             latitude = VAFboTable.Cells(line, AirportModul.COLUMN_LATITUDE)
@@ -69,7 +76,7 @@ Do While nextLineAvaible
                 airport.cargoSize = cargoSize
             End If
             airport.airportName = airportName
-            airport.icao = icao
+            
             airport.latitude = Replace(latitude, ".", ",")
             airport.longitude = Replace(longitude, ".", ",")
             airport.maxRunwayLength = longestRwy

@@ -4,6 +4,7 @@
 Private Sub CommandButton1_Click()
     setVisibleStateVASheets False
     setVisibleStateOperatorSheets False
+    distanceTable.Visible = True
 End Sub
 
 Private Sub CommandButton2_Click()
@@ -21,7 +22,7 @@ End Sub
 Private Sub setVisibleStateVASheets(ByVal visibleState As Boolean)
     AirlinePlanesTable.Visible = visibleState
     ManualInputsTable.Visible = visibleState
-    distanceTable.Visible = visibleState
+    
     VAFboTable.Visible = visibleState
     
 End Sub

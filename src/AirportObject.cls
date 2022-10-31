@@ -68,10 +68,10 @@ Public Property Let terminalSize(ByVal vNewValue As Long)
 terminalSizeLong = vNewValue
 End Property
 Public Property Get cargoSize() As Long
-cargoSize = cargoSizeLong
+cargoSize = mcargoSizeLong
 End Property
 
 Public Property Let cargoSize(ByVal vNewValue As Long)
-cargoSizeLong = vNewValue
+mcargoSizeLong = vNewValue
 End Property
 
