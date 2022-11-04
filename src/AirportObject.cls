@@ -7,42 +7,71 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+'@Folder "Objects.AirportObjects"
 
 Private mstricao As String
 Private mstrairportName As String
+Private terminalTypeString As String
+Private terminalSizeLong As Long
+Private mcargoSizeLong As Long
 Private mdbllongitude As String
 Private mdbllatitude As String
 Private mlngmaxRunwayLength As Long
-Property Get icao() As String
+
+
+
+
+Public Property Get icao() As String
     icao = mstricao
 End Property
-Property Let icao(rData As String)
+Public Property Let icao(rData As String)
     mstricao = rData
 End Property
-Property Get airportName() As String
+Public Property Get airportName() As String
     airportName = mstrairportName
 End Property
-Property Let airportName(rData As String)
+Public Property Let airportName(rData As String)
     mstrairportName = rData
 End Property
-Property Get longitude() As String
+Public Property Get longitude() As String
     longitude = mdbllongitude
 End Property
-Property Let longitude(rData As String)
+Public Property Let longitude(rData As String)
     mdbllongitude = rData
 End Property
-Property Get latitude() As String
+Public Property Get latitude() As String
     latitude = mdbllatitude
 End Property
-Property Let latitude(rData As String)
+Public Property Let latitude(rData As String)
     mdbllatitude = rData
 End Property
-Property Get maxRunwayLength() As Long
+Public Property Get maxRunwayLength() As Long
     maxRunwayLength = mlngmaxRunwayLength
 End Property
-Property Let maxRunwayLength(rData As Long)
+Public Property Let maxRunwayLength(rData As Long)
     mlngmaxRunwayLength = rData
 End Property
 
 
+Public Property Get terminalType() As String
+terminalType = terminalTypeString
+End Property
+
+Public Property Let terminalType(ByVal vNewValue As String)
+terminalTypeString = vNewValue
+End Property
+Public Property Get terminalSize() As Long
+terminalSize = terminalSizeLong
+End Property
+
+Public Property Let terminalSize(ByVal vNewValue As Long)
+terminalSizeLong = vNewValue
+End Property
+Public Property Get cargoSize() As Long
+cargoSize = mcargoSizeLong
+End Property
+
+Public Property Let cargoSize(ByVal vNewValue As Long)
+mcargoSizeLong = vNewValue
+End Property
 

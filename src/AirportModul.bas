@@ -1,10 +1,15 @@
 Attribute VB_Name = "AirportModul"
-Const COLUMN_ICAO As Long = 1
-'ICA    name    latitude_deg    longitude_deg   longest_runway
-Const COLUMN_NAME As Long = 2
-Const COLUMN_LATITUDE As Long = 3
-Const COLUMN_LONGITUDE As Long = 4
-Const COLUMN_LONGEST_RUNWAY_ As Long = 5
+'@Folder "Modules.Airport"
+
+ Public Const COLUMN_ICAO As Long = 1
+ Public Const COLUMN_TERMINAL_TYPE As Long = 2
+ Public Const COLUMN_TERMINAL_SIZE As Long = 3
+ Public Const COLUMN_CARGO_SIZE As Long = 4
+ Public Const COLUMN_LATITUDE As Long = 5
+ Public Const COLUMN_LONGITUDE As Long = 6
+ Public Const COLUMN_MAX_RUNWAY_LENGTH As Long = 7
+ Public Const COLUMN_AIRPORT_NAME As Long = 8
+
 
 Public Sub updateAirportDbFromMysqlDb()
 Dim rs As ADODB.Recordset
@@ -70,109 +75,10 @@ Do While Not rs.EOF
 Loop
 
 End Sub
-  
-Public Sub writeDistanceToDistanceTable()
-distanceTable.Range("A1:H999999").ClearContents
-distanceTable.Cells(1, 1) = "DEPARTURE"
-distanceTable.Cells(1, 2) = "DESTINATION"
-distanceTable.Cells(1, 3) = "DISTANCE_KM"
-distanceTable.Cells(1, 4) = "DISTANCE_NM"
-
-
-Dim dictAirports As Scripting.Dictionary
-Set dictAirports = AirportModul.getAirportDictionary
-Const KM_TO_NM_CONVERSION_CONSTANT As Double = 0.539956803
-
-
-Dim distanceKm1 As Double
-Dim distanceNM1 As Double
-
-Dim line As Long
-line = 2
-
-For Each airportIcao1 In dictAirports.Keys()
-    For Each airportIcao2 In dictAirports.Keys()
-        If Not (airportIcao1 Like airportIcao2) Then
-            Dim airportDep As AirportObject
-            Dim airportDest As AirportObject
-            Set airportDep = dictAirports.Item(airportIcao1)
-            Set airportDest = dictAirports.Item(airportIcao2)
-            
-            distanceKm1 = DistanceCaluculationModul.dDistance(airportDep.latitude, airportDep.longitude, airportDest.latitude, airportDest.longitude, Km)
-            distanceNM1 = DistanceCaluculationModul.dDistance(airportDep.latitude, airportDep.longitude, airportDest.latitude, airportDest.longitude, NM)
-            
-            distanceTable.Cells(line, 1) = airportDep.icao
-            distanceTable.Cells(line, 2) = airportDest.icao
-            
-            distanceTable.Cells(line, 3) = distanceKm1
-            distanceTable.Cells(line, 4) = distanceNM1
-            
-            line = line + 1
-            
-        End If
-    Next
-Next
-distanceTable.Range("C1:D" & line).NumberFormat = "#_ ;-#"
-distanceTable.Activate
-End Sub
 
 
 
 
 
-Public Function getAirportDictionary() As Scripting.Dictionary
 
-Dim line As Integer
-Dim nextLineAvaible As Boolean
-Dim icao As String
-Dim airportName As String
-Dim latitude As String
-Dim longitude As String
-Dim longesRwy As Long
-
-
-nextLineAvaible = True
-Dim dict As Scripting.Dictionary
-    Set dict = New Scripting.Dictionary
-    
-line = 2
-Dim test As String
-test = Range("A2")
-
-Dim airport As AirportObject
-
-Do While nextLineAvaible
-
-    If Not IsEmpty(VaAirportTable.Range("A" & line)) And (IsError(VaAirportTable.Cells(line, 2)) = False) Then
-     
-        Set airport = New AirportObject
-        
-        icao = VaAirportTable.Cells(line, 1)
-        airportName = VaAirportTable.Cells(line, 2)
-        latitude = VaAirportTable.Cells(line, 3)
-        longitude = VaAirportTable.Cells(line, 4)
-        longesRwy = VaAirportTable.Cells(line, 5)
-        
-        airport.airportName = airportName
-        airport.icao = icao
-        airport.latitude = Replace(latitude, ".", ",")
-        airport.longitude = Replace(longitude, ".", ",")
-        airport.maxRunwayLength = longesRwy
-        
-        Dim key As String
-        Dim value As Variant
-        key = icao
-        Set value = airport
-        
-        dict.Add key, value
-    Else
-    nextLineAvaible = False
-    
-     
-    End If
-line = line + 1
-Loop
-Set getAirportDictionary = dict
-
-End Function
 

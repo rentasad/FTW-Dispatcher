@@ -1,0 +1,35 @@
+﻿'@Folder "Tables.ControllerTables"
+
+' Hide not needed Sheets
+Private Sub CommandButton1_Click()
+    setVisibleStateVASheets False
+    setVisibleStateOperatorSheets False
+    distanceTable.Visible = True
+End Sub
+
+Private Sub CommandButton2_Click()
+        setVisibleStateVASheets True
+    setVisibleStateOperatorSheets False
+End Sub
+
+
+Private Sub CommandButton3_Click()
+    setVisibleStateVASheets True
+    setVisibleStateOperatorSheets True
+End Sub
+
+
+Private Sub setVisibleStateVASheets(ByVal visibleState As Boolean)
+    AirlinePlanesTable.Visible = visibleState
+    ManualInputsTable.Visible = visibleState
+    
+    VAFboTable.Visible = visibleState
+    
+End Sub
+
+Private Sub setVisibleStateOperatorSheets(ByVal visibleState As Boolean)
+AirportDatabaseTable.Visible = visibleState
+FtwAirplanesTable.Visible = visibleState
+ControllerTable.Visible = visibleState
+ConfigTable.Visible = visibleState
+End Sub

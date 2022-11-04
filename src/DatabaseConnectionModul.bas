@@ -1,4 +1,5 @@
 Attribute VB_Name = "DatabaseConnectionModul"
+'@Folder "Modules.Utilities"
 Const CONFIG_MYSQL_USERNAME_RANGE As String = "B6"
 Const CONFIG_MYSQL_PASSWORD_RANGE As String = "B7"
 Const CONFIG_MYSQL_HOSTNAME_RANGE As String = "B4"
@@ -6,7 +7,7 @@ Const CONFIG_MYSQL_DATABASENAME_RANGE As String = "B5"
 Const CONFIG_MYSQL_PORT_RANGE As String = "B8"
 ' return mySqlConfigObject with DB configuration from Settings sheet
 
-Function getConnection(ByVal mySqlConfig As mySqlConfigObject)
+Public Function getConnection(ByVal mySqlConfig As mySqlConfigObject)
 
     Dim conn As ADODB.connection
     Set conn = New ADODB.connection
@@ -15,7 +16,7 @@ Function getConnection(ByVal mySqlConfig As mySqlConfigObject)
     Set getConnection = conn
 End Function
 
-Function getConnectionStringFromMySqlConfigObject(ByVal mySqlConfig As mySqlConfigObject) As String
+Public Function getConnectionStringFromMySqlConfigObject(ByVal mySqlConfig As mySqlConfigObject) As String
     Dim connectionStringTemplate As String
     
     connectionStringTemplate = "DRIVER={MySQL ODBC 8.0 Unicode Driver};" _
@@ -32,7 +33,7 @@ Function getConnectionStringFromMySqlConfigObject(ByVal mySqlConfig As mySqlConf
 End Function
 
 
-Function getMySqlConfigObjectFromConfigSheet() As mySqlConfigObject
+Public Function getMySqlConfigObjectFromConfigSheet() As mySqlConfigObject
     Dim mySqlConfigObject As mySqlConfigObject
     Set mySqlConfigObject = New mySqlConfigObject
     
@@ -44,4 +45,5 @@ Function getMySqlConfigObjectFromConfigSheet() As mySqlConfigObject
     
     Set getMySqlConfigObjectFromConfigSheet = mySqlConfigObject
 End Function
+
 
