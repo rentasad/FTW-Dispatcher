@@ -37,7 +37,7 @@ line = 2
 Dim test As String
 test = Range("A2")
 
-Dim airport As airportObject
+Dim airport As AirportObject
 Dim verifyColumn As Variant
 
 Const NOT_IN_DATABASE_STRING As String = "Not in Database"
@@ -59,7 +59,7 @@ Do While nextLineAvaible
         
         resultCompare = StrComp(verifyColumn, NOT_IN_DATABASE_STRING)
         If (resultCompare = -1) Then
-            Set airport = New airportObject
+            Set airport = New AirportObject
             airport.icao = icao
             
             airportName = VAFboTable.Cells(line, AirportModul.COLUMN_AIRPORT_NAME)
@@ -93,7 +93,8 @@ Do While nextLineAvaible
             ' Airport not in Database -> Entry Skipped
             If (existAirportInManualInputTable(icao)) Then
                 Set airport = getAirportObjectFromManualInputSheet(icao)
-                
+                dict.Add airport.icao, airport
+                Debug.Print ("\n ADD MANUAL INPUT AIRPORT: " & airport.icao)
             End If
             
             
@@ -111,8 +112,8 @@ Set getAirportDictionary = dict
 End Function
 Public Function getAirportObjectFromManualInputSheet(ByVal icao As String)
     If (existAirportInManualInputTable(icao)) Then
-    Dim ao As airportObject
-    Set ao = New airportObject
+    Dim ao As AirportObject
+    Set ao = New AirportObject
     
     Dim connection As Object
     Dim rs As ADODB.Recordset
