@@ -23,6 +23,7 @@ End Function
 
 Public Sub formatRouteTable()
     Dim tbl As ListObject
+    distanceTable.Activate
     Set tbl = ActiveSheet.ListObjects("Routes")
     With tbl.DataBodyRange.Range("E1:E" & getTableLengthFromRoutestable)
             .FormatConditions.Delete
@@ -147,6 +148,8 @@ Public Function isAirportCombinationValid(ByVal airportDep As AirportObject, ByV
     If (StrComp(departureTerminalType, TERMINAL_TYPE_PAX) = IS_EQUAL) And (StrComp(destinationTerminalType, TERMINAL_TYPE_PAX) = IS_EQUAL) Then
         isValid = True
     ElseIf (StrComp(departureTerminalType, TERMINAL_TYPE_PAX) = IS_EQUAL) And (StrComp(destinationTerminalType, TERMINAL_TYPE_COMBO) = IS_EQUAL) Then
+        isValid = True
+    ElseIf (StrComp(departureTerminalType, TERMINAL_TYPE_COMBO) = IS_EQUAL) And (StrComp(destinationTerminalType, TERMINAL_TYPE_PAX) = IS_EQUAL) Then
         isValid = True
     ElseIf (StrComp(departureTerminalType, TERMINAL_TYPE_COMBO) = IS_EQUAL) And (StrComp(destinationTerminalType, TERMINAL_TYPE_COMBO) = IS_EQUAL) Then
         isValid = True
