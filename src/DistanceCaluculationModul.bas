@@ -56,7 +56,7 @@ keyvalue = ConfigTable.Cells(15, 2)
     mitUrl = Initial_Value & startlocation & Second_Value & destination & Destination_Value
     mitHTTP.Open "GET", mitUrl, False
     mitHTTP.SetRequestHeader "User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"
-    mitHTTP.Send ("")
+    mitHTTP.send ("")
     Dim response As String
     response = mitHTTP.ResponseText
     Debug.Print (response)
