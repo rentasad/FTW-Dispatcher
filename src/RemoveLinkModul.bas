@@ -1,4 +1,7 @@
 Attribute VB_Name = "RemoveLinkModul"
+' ***************************************************************************
+' * SOURCE: https://www.denisreis.com/excel-vba-verknuepfungen-entfernen/   *
+' ***************************************************************************
 Sub removeWorkbookLinksInWorkbook(ByVal Workbook As Workbook)
 Dim ArrayV As Variant
 Dim CntLine As Long
