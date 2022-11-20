@@ -8,6 +8,15 @@ Public Const COLUMN_TERMINAL_PAX As Long = 3
 Public Const COLUMN_TERMINAL_CARGO As Long = 4
 Public Const COLUMN_LONGEST_RWY As Long = 5
 Public Const COLUMN_DISTANCE_NM As Long = 6
+Public Const COLUMN_RANGE_VALID As Long = 7
+
+
+Public Const FIELD_PIVOT_COLUMN_MIN_RUNWAY As String = "$I$2"
+Public Const FIELD_PIVOT_COLUMN_MAX_RANGE As String = "$J$2"
+Public Const FIELD_PIVOT_COLUMN_SEATS As String = "$K$2"
+Public Const FIELD_PIVOT_COLUMN_CARGO As String = "$L$2"
+Public Const FIELD_PIVOT_COLUMN_LONG_RANGE_PLANE As String = "$M$2"
+
 
 Public Function getTableLengthFromRoutestable() As Long
 Dim tbl As ListObject
@@ -25,32 +34,44 @@ Public Sub formatRouteTable()
     Dim tbl As ListObject
     distanceTable.Activate
     Set tbl = ActiveSheet.ListObjects("Routes")
+    ' Runway LENGTH
     With tbl.DataBodyRange.Range("E1:E" & getTableLengthFromRoutestable)
             .FormatConditions.Delete
             .FormatConditions.Add Type:=xlCellValue, _
                 Operator:=xlLessEqual, _
-        Formula1:="=$H$2"
+        Formula1:="=" & FIELD_PIVOT_COLUMN_MIN_RUNWAY
             .FormatConditions(1).Interior.Color = RGB(255, 199, 206)
     End With
-    
-        With tbl.DataBodyRange.Range("F1:F" & getTableLengthFromRoutestable)
+    ' DISTANCE/RANGE
+    With tbl.DataBodyRange.Range("F1:F" & getTableLengthFromRoutestable)
             .FormatConditions.Delete
             .FormatConditions.Add Type:=xlCellValue, _
                 Operator:=xlGreater, _
-        Formula1:="=$I$2"
+        Formula1:="=" & FIELD_PIVOT_COLUMN_MAX_RANGE
             .FormatConditions(1).Interior.Color = RGB(255, 199, 206)
     End With
-    
-        With tbl.DataBodyRange.Range("C1:C" & getTableLengthFromRoutestable)
+    ' TERMINAL/PAX
+    With tbl.DataBodyRange.Range("C1:C" & getTableLengthFromRoutestable)
             .FormatConditions.Delete
             .FormatConditions.Add Type:=xlCellValue, _
-                Operator:=xlLessEqual, _
-        Formula1:="=$J$2"
+                Operator:=xlLess, _
+        Formula1:="=" & FIELD_PIVOT_COLUMN_SEATS
             .FormatConditions(1).Interior.Color = RGB(255, 199, 206)
     End With
 End Sub
 
-
+' FORMEL FÜR RangeValid-Spalte:
+' =WENN(
+' ODER(
+   ' UND(PIVOTDATENZUORDNEN("Summe von Long Range Plane?";$I$1)=1;
+           ' [@[DISTANCE NM]]>=500;
+            ' [@[DISTANCE NM]]<=PIVOTDATENZUORDNEN("Summe von Max Range (nm)";$I$1)
+   ' );UND(
+    ' PIVOTDATENZUORDNEN("Summe von Long Range Plane?";$I$1)=0;
+    ' [@[DISTANCE NM]]<=PIVOTDATENZUORDNEN("Summe von Max Range (nm)";$I$1)
+' ));1;0
+'
+' )
 
 Public Sub writeDistanceToDistanceTable()
 TableModul.disableUpdates
@@ -61,6 +82,7 @@ distanceTable.Cells(1, COLUMN_TERMINAL_PAX) = "TERMINAL PAX"
 distanceTable.Cells(1, COLUMN_TERMINAL_CARGO) = "TERMINAL CARGO"
 distanceTable.Cells(1, COLUMN_DISTANCE_NM) = "DISTANCE NM"
 distanceTable.Cells(1, COLUMN_LONGEST_RWY) = "LONGEST RUNWAY"
+distanceTable.Cells(1, COLUMN_RANGE_VALID) = "RANGE VALID"
 
 Dim dictAirports As Scripting.Dictionary
 Set dictAirports = AirportObjectAccessModul.getAirportDictionary
