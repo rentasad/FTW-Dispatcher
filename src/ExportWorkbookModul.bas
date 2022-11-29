@@ -86,12 +86,15 @@ Dim test As Variant
 '    newAirlineDispatchingWorkbook.Connections.Item(1).Delete
 'End If
 
-'Dim xConnect As Object
-'For Each xConnect In newAirlineDispatchingWorkbook.Connections
-'If xConnect.Name <> "ThisWorkbookDataModel" Then xConnect.Delete
-'Next xConnect
+Dim xConnect As Object
+For Each xConnect In newAirlineDispatchingWorkbook.Connections
+    If xConnect.Name <> "ThisWorkbookDataModel" Then
+        xConnect.Delete
+    End If
+Next xConnect
 
-
+' Remove Workbooklinks
+RemoveLinkModul.removeWorkbookLinksInWorkbook newAirlineDispatchingWorkbook
 
 
 ' Hide unused Sheets
